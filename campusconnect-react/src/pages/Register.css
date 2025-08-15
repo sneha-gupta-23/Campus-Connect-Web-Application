@@ -1,0 +1,166 @@
+/* Split layout: left side image + right side form */
+.split-layout {
+  display: flex;
+  height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Left panel: logo & image */
+.left-panel {
+  flex: 1;
+  background: #e6f7f7;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.left-panel h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.left-panel .tagline-box {
+  margin: 20px 0;
+}
+
+.left-panel .illustration {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Right panel: form */
+.right-panel {
+  flex: 1;
+  background: #fff;
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-box {
+  background: #fff;
+  padding: 40px 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  max-height: 80vh;    /* ✅ Scroll if content overflows */
+  overflow-y: auto;    /* ✅ Scrollable inside */
+}
+
+.form-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.form-box::-webkit-scrollbar-thumb {
+  background: #3baaa9;
+  border-radius: 10px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.tabs .tab {
+  text-decoration: none;
+  color: #3baaa9;
+  font-weight: bold;
+}
+
+.tabs .tab.active {
+  border-bottom: 2px solid #3baaa9;
+}
+
+h2 {
+  text-align: center;
+  color: #3baaa9;
+}
+
+label {
+  display: block;
+  margin: 12px 0 5px;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  background: #3baaa9;
+  color: #fff;
+  padding: 12px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2a8787;
+}
+
+.signup-cta {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.signup-cta a {
+  color: #3baaa9;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signup-cta a:hover {
+  text-decoration: underline;
+}
+
+select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+
+/* Responsive: Stack panels on mobile */
+@media (max-width: 768px) {
+  .split-layout {
+    flex-direction: column;
+  }
+
+  .left-panel,
+  .right-panel {
+    flex: none;
+    height: auto;
+    padding: 20px;
+  }
+
+  .form-box {
+    max-height: none;
+  }
+}
+
+.back-home-link {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: #007b7b;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.back-home-link:hover {
+  color: #004c4c;
+}

@@ -1,0 +1,109 @@
+.profile-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: #f6fefb;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 100, 0, 0.1);
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-photo img {
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.profile-details {
+  width: 100%;
+}
+
+.profile-details p,
+.profile-details label {
+  margin: 0.5rem 0 0.2rem;
+}
+
+.profile-details input {
+  width: 100%;
+  padding: 0.4rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.profile-actions button {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+.profile-container h1 {
+  color: #2F80ED;
+}
+
+.profile-pic {
+  margin: 20px auto;
+}
+
+.profile-pic img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.placeholder-pic {
+  width: 120px;
+  height: 120px;
+  background: #ddd;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-fields {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.profile-fields p, .profile-fields label {
+  margin: 8px 0;
+}
+
+.profile-fields input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+.edit-btn, .logout-btn {
+  margin: 10px;
+  padding: 10px 20px;
+  background: #2F80ED;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.logout-btn {
+  background: #e63946;
+}
+
+.edit-btn:hover, .logout-btn:hover {
+  opacity: 0.9;
+}

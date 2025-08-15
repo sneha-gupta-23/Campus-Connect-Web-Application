@@ -1,0 +1,114 @@
+/* src/pages/Login.css */
+
+.login-layout {
+  display: flex;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.login-left {
+  flex: 1;
+  background-color: #e6f9f8;
+  padding: 60px 30px;
+  text-align: center;
+}
+
+.login-left h1 {
+  font-size: 2.2rem;
+  color: #083c5e;
+}
+
+.login-left h2 {
+  color: #00a28d;
+  margin-top: 10px;
+}
+
+.login-left p {
+  margin-top: 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+.login-left img {
+  width: 300px;
+  margin-top: 40px;
+}
+
+.login-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+}
+
+.form-container {
+  width: 90%;
+  max-width: 400px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.tab {
+  text-decoration: none;
+  font-weight: bold;
+  padding-bottom: 5px;
+  color: #444;
+}
+
+.tab.active {
+  color: #00a28d;
+  border-bottom: 2px solid #00a28d;
+}
+
+form label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+form input,
+form select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+form button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  background: #00a28d;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+}
+
+.signup-cta {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.back-home-link {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: #007b7b;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.back-home-link:hover {
+  color: #004c4c;
+}

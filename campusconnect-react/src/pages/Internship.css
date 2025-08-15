@@ -1,0 +1,50 @@
+.internship-container {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.search-input {
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.form-section input,
+.form-section textarea {
+  display: block;
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 100%;
+}
+
+.form-section button {
+  padding: 10px 20px;
+  margin-top: 10px;
+}
+
+.internship-list {
+  margin-top: 30px;
+}
+
+.internship-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background: #f9f9f9;
+}
+
+.internship-card button {
+  margin-right: 10px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.message {
+  padding: 20px;
+  text-align: center;
+  color: red;
+  font-weight: bold;
+}

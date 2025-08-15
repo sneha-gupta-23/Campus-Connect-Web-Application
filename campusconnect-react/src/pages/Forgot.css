@@ -1,0 +1,116 @@
+/* Forgot.css */
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f4f4;
+}
+
+.split-layout {
+  display: flex;
+  height: 100vh;
+}
+
+.left-panel {
+  flex: 1;
+  background: #dff7f7;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.left-panel h1 {
+  font-size: 32px;
+  color: #003366;
+}
+
+.left-panel .tagline-box {
+  margin: 30px 0;
+}
+
+.left-panel .tagline-box h2 {
+  color: #007b80;
+  margin: 0;
+}
+
+.left-panel .tagline-box p {
+  color: #333;
+}
+
+.left-panel .illustration {
+  width: 300px;
+  height: auto;
+}
+
+.right-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+}
+
+.form-box {
+  width: 90%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 40px;
+}
+
+.shadow-card {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 14px;
+  color: #555;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background: #00bfa6;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+  border-radius: 4px;
+}
+
+button:hover {
+  background: #009b8e;
+}
+
+.back-login {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.back-login a {
+  text-decoration: none;
+  color: #00bfa6;
+}

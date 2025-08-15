@@ -1,0 +1,84 @@
+.dashboard-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #f0f9ff, #e0ffe9);
+  padding: 40px 20px;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.dashboard-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.brand {
+  color: #00b894;
+}
+
+.brand-alt {
+  color: #6c5ce7;
+}
+
+.dashboard-subtitle {
+  font-size: 22px;
+  margin-bottom: 30px;
+  color: #2d3436;
+}
+
+.tiles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.tile-card {
+  background-color: #eafbf2;
+  border-radius: 20px;
+  padding: 30px 20px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+}
+
+.tile-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  background-color: #d2fbd8;
+}
+
+.tile-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.tile-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.bottom-nav {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  font-size: 16px;
+}
+
+.bottom-nav a {
+  color: #0984e3;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.bottom-nav a:hover {
+  text-decoration: underline;
+}
+
+.coming-soon {
+  opacity: 0.6;
+  pointer-events: none;
+}

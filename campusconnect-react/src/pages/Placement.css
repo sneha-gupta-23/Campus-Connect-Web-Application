@@ -1,0 +1,109 @@
+.placement-page {
+  font-family: "Segoe UI", sans-serif;
+}
+
+.top-nav {
+  background-color: #3baaa9;
+  color: #fff;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.top-nav h1 {
+  font-size: 22px;
+}
+
+.top-nav nav a {
+  color: #fff;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.top-nav nav a:hover {
+  text-decoration: underline;
+}
+
+.content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 50px 30px;
+}
+
+.content .left {
+  max-width: 40%;
+}
+
+.content h2 {
+  font-size: 32px;
+  color: #3baaa9;
+  margin-bottom: 20px;
+}
+
+.content p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.grab-btn {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: #3baaa9;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.grab-btn:hover {
+  background-color: #2a8787;
+}
+
+.content .right img {
+  max-width: 400px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.content figcaption {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+footer {
+  background-color: #3baaa9;
+  color: #fff;
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 40px;
+}
+
+footer .footer-links {
+  margin: 20px 0;
+}
+
+footer button {
+  background: #222;
+  color: #fff;
+  margin: 5px;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+footer button:hover {
+  background: #444;
+}
+
+footer address {
+  margin-top: 10px;
+  font-style: normal;
+  line-height: 1.5;
+}
