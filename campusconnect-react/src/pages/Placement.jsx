@@ -1,156 +1,229 @@
-// src/pages/Placement.jsx
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Placement.css";
 
 export default function Placement() {
-  const [placements, setPlacements] = useState([]);
-  const [company, setCompany] = useState("");
-  const [role, setRole] = useState("");
-  const [location, setLocation] = useState("");
-  const [editIndex, setEditIndex] = useState(null);
   const navigate = useNavigate();
+  const storedUser = JSON.parse(localStorage.getItem("currentUser"));
+  const role = storedUser?.role || "student";
+  const name = storedUser?.name || "User";
 
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const [placements, setPlacements] = useState(() => {
+    const saved = localStorage.getItem("placements");
+    return saved
+      ? JSON.parse(saved)
+      : [
+          {
+            id: 1,
+            company: "Google",
+            role: "Software Engineer",
+            location: "Bangalore, India",
+            package: "₹18 LPA",
+            applyLink: "https://careers.google.com/",
+            applicants: 12,
+            logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+          },
+          {
+            id: 2,
+            company: "TCS",
+            role: "System Engineer",
+            location: "Pune, India",
+            package: "₹7 LPA",
+            applyLink: "https://www.tcs.com/careers",
+            applicants: 28,
+            logo: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Tata_Consultancy_Services_Logo.svg",
+          },
+        ];
+  });
+
+  const [newPlacement, setNewPlacement] = useState({
+    company: "",
+    role: "",
+    location: "",
+    package: "",
+    applyLink: "",
+    logo: "",
+  });
+
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const storedPlacements = JSON.parse(localStorage.getItem("placements")) || [];
-    setPlacements(storedPlacements);
-  }, []);
+    localStorage.setItem("placements", JSON.stringify(placements));
+  }, [placements]);
 
-  const savePlacements = (newList) => {
-    setPlacements(newList);
-    localStorage.setItem("placements", JSON.stringify(newList));
+  const handleAddPlacement = () => {
+    if (
+      !newPlacement.company ||
+      !newPlacement.role ||
+      !newPlacement.location ||
+      !newPlacement.package ||
+      !newPlacement.applyLink
+    ) {
+      alert("Please fill all fields!");
+      return;
+    }
+
+    const updatedPlacements = [
+      ...placements,
+      { id: Date.now(), ...newPlacement, applicants: 0 },
+    ];
+    setPlacements(updatedPlacements);
+    setNewPlacement({
+      company: "",
+      role: "",
+      location: "",
+      package: "",
+      applyLink: "",
+      logo: "",
+    });
   };
 
-  const handleAdd = () => {
-    if (!company || !role || !location) return alert("Fill all fields");
-    const newPlacement = { company, role, location };
-    const updatedList = [...placements, newPlacement];
-    savePlacements(updatedList);
-    setCompany("");
-    setRole("");
-    setLocation("");
+  const handleDelete = (id) => {
+    const updated = placements.filter((p) => p.id !== id);
+    setPlacements(updated);
   };
 
-  const handleUpdate = () => {
-    if (editIndex === null) return;
-    const updated = [...placements];
-    updated[editIndex] = { company, role, location };
-    savePlacements(updated);
-    setEditIndex(null);
-    setCompany("");
-    setRole("");
-    setLocation("");
+  const handleApply = (id) => {
+    const updated = placements.map((p) =>
+      p.id === id ? { ...p, applicants: p.applicants + 1 } : p
+    );
+    setPlacements(updated);
+    alert("✅ Application recorded! You can continue on the company site.");
   };
 
-  const handleEdit = (index) => {
-    const item = placements[index];
-    setCompany(item.company);
-    setRole(item.role);
-    setLocation(item.location);
-    setEditIndex(index);
-  };
-
-  const handleDelete = (index) => {
-    const updated = placements.filter((_, i) => i !== index);
-    savePlacements(updated);
-  };
-
-  const handleBack = () => {
-    navigate("/dashboard");
-  };
-
-  const isAdmin = currentUser?.role === "admin";
-  const isHR = currentUser?.role === "hr";
-  // eslint-disable-next-line no-unused-vars
-  const isStudent = currentUser.role === "student";
+  // Filter placements by search text
+  const filteredPlacements = placements.filter(
+    (p) =>
+      p.company.toLowerCase().includes(search.toLowerCase()) ||
+      p.location.toLowerCase().includes(search.toLowerCase()) ||
+      p.role.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <div style={{ padding: "30px", maxWidth: "700px", margin: "auto" }}>
-      <h2>Placement Opportunities</h2>
+    <div className="placement-container">
+      {/* Header Section */}
+      <div className="placement-header">
+        <h2 className="placement-title">Placement Opportunities</h2>
+        <button className="back-btn" onClick={() => navigate("/dashboard")}>
+          ← Back to Dashboard
+        </button>
+      </div>
 
-      {(isAdmin || isHR) && (
-        <div style={{ marginBottom: "20px" }}>
-          <input
-            type="text"
-            placeholder="Company Name"
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
-            style={{ marginRight: "10px", padding: "6px" }}
-          />
-          <input
-            type="text"
-            placeholder="Role"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            style={{ marginRight: "10px", padding: "6px" }}
-          />
-          <input
-            type="text"
-            placeholder="Location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            style={{ marginRight: "10px", padding: "6px" }}
-          />
-          {editIndex !== null ? (
-            <button onClick={handleUpdate} style={{ padding: "6px 12px", background: "#ffc107" }}>
-              Update
-            </button>
-          ) : (
-            <button onClick={handleAdd} style={{ padding: "6px 12px", background: "#007bff", color: "#fff" }}>
-              Add
-            </button>
-          )}
+      <p className="placement-subtitle">
+        Explore full-time roles and apply directly to top companies.
+      </p>
+
+      {/* Search Filter */}
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search by company, role, or location..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      {/* Admin/HR Add Section */}
+      {(role === "admin" || role === "hr") && (
+        <div className="add-placement-form">
+          <h3>{role === "admin" ? "Post New Placement" : "Add Placement"}</h3>
+          <div className="form-fields">
+            <input
+              type="text"
+              placeholder="Company Name"
+              value={newPlacement.company}
+              onChange={(e) =>
+                setNewPlacement({ ...newPlacement, company: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Role"
+              value={newPlacement.role}
+              onChange={(e) =>
+                setNewPlacement({ ...newPlacement, role: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Location"
+              value={newPlacement.location}
+              onChange={(e) =>
+                setNewPlacement({ ...newPlacement, location: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Package (e.g. ₹10 LPA)"
+              value={newPlacement.package}
+              onChange={(e) =>
+                setNewPlacement({ ...newPlacement, package: e.target.value })
+              }
+            />
+            <input
+              type="url"
+              placeholder="Apply Link"
+              value={newPlacement.applyLink}
+              onChange={(e) =>
+                setNewPlacement({ ...newPlacement, applyLink: e.target.value })
+              }
+            />
+            <input
+              type="url"
+              placeholder="Logo URL (optional)"
+              value={newPlacement.logo}
+              onChange={(e) =>
+                setNewPlacement({ ...newPlacement, logo: e.target.value })
+              }
+            />
+            <button onClick={handleAddPlacement}>Add Placement</button>
+          </div>
         </div>
       )}
 
-      {placements.length === 0 ? (
-        <p>No placement opportunities available.</p>
-      ) : (
-        <ul style={{ listStyleType: "none", padding: 0 }}>
-          {placements.map((item, index) => (
-            <li key={index} style={{ marginBottom: "12px", borderBottom: "1px solid #ccc", paddingBottom: "8px" }}>
-              <strong>{item.company}</strong> — {item.role} ({item.location})
-              {(isAdmin || isHR) && (
-                <div style={{ marginTop: "5px" }}>
-                  {isAdmin && (
-                    <>
-                      <button
-                        onClick={() => handleEdit(index)}
-                        style={{ marginRight: "8px", padding: "4px 10px" }}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(index)}
-                        style={{ background: "red", color: "white", padding: "4px 10px" }}
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
-                </div>
+      {/* Placement Cards */}
+      <div className="placement-cards">
+        {filteredPlacements.length > 0 ? (
+          filteredPlacements.map((placement) => (
+            <div className="placement-card" key={placement.id}>
+              {placement.logo && (
+                <img
+                  src={placement.logo}
+                  alt={placement.company}
+                  className="company-logo"
+                />
               )}
-            </li>
-          ))}
-        </ul>
-      )}
+              <h3>{placement.role}</h3>
+              <p className="company-name">{placement.company}</p>
+              <p>{placement.location}</p>
+              <p className="package">{placement.package}</p>
+              <p className="applicants">{placement.applicants} Applied</p>
 
-      <div style={{ marginTop: "2rem", textAlign: "center" }}>
-        <button
-          onClick={handleBack}
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer"
-          }}
-        >
-          Back to Dashboard
-        </button>
+              <div className="card-buttons">
+                <a
+                  href={placement.applyLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="apply-btn"
+                  onClick={() => handleApply(placement.id)}
+                >
+                  Apply Now →
+                </a>
+
+                {role === "admin" && (
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(placement.id)}
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="no-results">No placements found for your search.</p>
+        )}
       </div>
     </div>
   );

@@ -1,73 +1,121 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import "./Notices.css";
+import { FaPlus, FaTrash, FaEdit } from "react-icons/fa";
 
 export default function Notices() {
-  const [notices, setNotices] = useState([]);
-  const [newTitle, setNewTitle] = useState("");
-  const [newDescription, setNewDescription] = useState("");
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+  const role = loggedInUser?.role?.toLowerCase();
 
-  // Load saved notices from localStorage
+  const [notices, setNotices] = useState([]);
+  const [newNotice, setNewNotice] = useState({
+    title: "",
+    description: "",
+    date: "",
+  });
+  const [editingIndex, setEditingIndex] = useState(null);
+
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("notices")) || [];
-    setNotices(saved);
+    const savedNotices = JSON.parse(localStorage.getItem("notices")) || [];
+    setNotices(savedNotices);
   }, []);
 
-  // Save notices to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem("notices", JSON.stringify(notices));
   }, [notices]);
 
-  function addNotice(e) {
+  const handleAddOrUpdate = (e) => {
     e.preventDefault();
-    if (newTitle.trim() === "" || newDescription.trim() === "") {
-      alert("Please fill in both fields.");
+
+    if (!newNotice.title.trim() || !newNotice.description.trim()) {
+      alert("Please fill in all fields!");
       return;
     }
-    const newNotice = {
-      title: newTitle,
-      date: new Date().toLocaleDateString(),
-      description: newDescription
-    };
-    setNotices([newNotice, ...notices]);
-    setNewTitle("");
-    setNewDescription("");
-  }
+
+    const updatedNotices =
+      editingIndex !== null
+        ? notices.map((n, i) => (i === editingIndex ? newNotice : n))
+        : [...notices, newNotice];
+
+    setNotices(updatedNotices);
+    setNewNotice({ title: "", description: "", date: "" });
+    setEditingIndex(null);
+  };
+
+  const handleEdit = (index) => {
+    setNewNotice(notices[index]);
+    setEditingIndex(index);
+  };
+
+  const handleDelete = (index) => {
+    if (window.confirm("Are you sure you want to delete this notice?")) {
+      const updated = notices.filter((_, i) => i !== index);
+      setNotices(updated);
+    }
+  };
 
   return (
-    <div className="notices-container">
+    <div className="notice-container">
       <h1>📢 Notices</h1>
 
-      <form onSubmit={addNotice} className="notice-form">
-        <input
-          type="text"
-          placeholder="Notice Title"
-          value={newTitle}
-          onChange={(e) => setNewTitle(e.target.value)}
-        />
-        <textarea
-          placeholder="Description"
-          value={newDescription}
-          onChange={(e) => setNewDescription(e.target.value)}
-        />
-        <button type="submit">Add Notice</button>
-      </form>
+      {/* Admin Only Form */}
+      {role === "admin" && (
+        <form className="notice-form" onSubmit={handleAddOrUpdate}>
+          <h2>{editingIndex !== null ? "Edit Notice" : "Add New Notice"}</h2>
+          <input
+            type="text"
+            placeholder="Enter Notice Title"
+            value={newNotice.title}
+            onChange={(e) =>
+              setNewNotice({ ...newNotice, title: e.target.value })
+            }
+            required
+          />
+          <textarea
+            placeholder="Enter Notice Description"
+            value={newNotice.description}
+            onChange={(e) =>
+              setNewNotice({ ...newNotice, description: e.target.value })
+            }
+            required
+          ></textarea>
+          <input
+            type="date"
+            value={newNotice.date}
+            onChange={(e) =>
+              setNewNotice({ ...newNotice, date: e.target.value })
+            }
+          />
+          <button type="submit">
+            {editingIndex !== null ? "Save Changes" : <><FaPlus /> Add Notice</>}
+          </button>
+        </form>
+      )}
 
-      <div className="notices-list">
+      {/* Notice List */}
+      <div className="notice-list">
         {notices.length === 0 ? (
-          <p>No notices yet.</p>
+          <p className="no-notice">No notices available</p>
         ) : (
-          notices.map((notice, index) => (
+          notices.map((n, index) => (
             <div key={index} className="notice-card">
-              <h3>{notice.title}</h3>
-              <p><strong>Date:</strong> {notice.date}</p>
-              <p>{notice.description}</p>
+              <h3>{n.title}</h3>
+              <p>{n.description}</p>
+              <small>📅 {n.date || "No date provided"}</small>
+
+              {role === "admin" && (
+                <div className="notice-actions">
+                  <button onClick={() => handleEdit(index)}>
+                    <FaEdit /> Edit
+                  </button>
+                  <button onClick={() => handleDelete(index)}>
+                    <FaTrash /> Delete
+                  </button>
+                </div>
+              )}
             </div>
           ))
         )}
       </div>
-
-      <Link to="/dashboard" className="back-link">← Back to Dashboard</Link>
     </div>
   );
 }

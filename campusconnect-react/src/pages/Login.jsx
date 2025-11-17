@@ -38,7 +38,7 @@ export default function Login() {
     }
 
     if (matchedUser) {
-      localStorage.setItem("currentUser", JSON.stringify(matchedUser));
+      localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
       alert(`Login successful as ${selectedRole}`);
       navigate("/dashboard");
     } else {

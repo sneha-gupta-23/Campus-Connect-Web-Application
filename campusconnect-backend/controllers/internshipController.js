@@ -1,137 +1,152 @@
+// backend/controllers/internshipController.js
 const Internship = require("../models/Internship");
-const Application = require("../models/Application");
+const mongoose = require("mongoose");
 
-// GET all internships (with optional filters)
-const getAllInternships = async (req, res) => {
+// ✅ Create Internship (Admin + HR)
+exports.createInternship = async (req, res) => {
   try {
-    const filters = {};
-    const { category, location, mode, search } = req.query;
-
-    if (category) filters.category = category;
-    if (location) filters.location = location;
-    if (mode) filters.mode = mode;
-    if (search) {
-      filters.title = { $regex: search, $options: "i" };
+    if (!["HR", "Admin"].includes(req.user.role)) {
+      return res.status(403).json({ message: "Access denied" });
     }
 
-    const internships = await Internship.find(filters).sort({ createdAt: -1 });
-    res.json(internships);
+    const data = req.body;
+    data.createdBy = req.user._id;
+
+    const internship = await Internship.create(data);
+    res.status(201).json(internship);
   } catch (err) {
-    res.status(500).json({ message: "Server error while fetching internships" });
+    console.error("❌ Create Internship Error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-// POST create internship (Admin or HR)
-const createInternship = async (req, res) => {
+// ✅ Get All Internships (with filters + pagination)
+exports.getAllInternships = async (req, res) => {
   try {
-    const {
-      title, company, location, mode,
-      duration, stipend, category,
-      description, requirements, lastDate
-    } = req.body;
+    const { type, search, skill, page = 1, limit = 12 } = req.query;
+    const query = {};
 
-    const newInternship = new Internship({
-      title,
-      company,
-      location,
-      mode,
-      duration,
-      stipend,
-      category,
-      description,
-      requirements,
-      lastDate,
-      createdBy: req.user._id,
-    });
+    if (type) query.type = type;
+    if (search) {
+      query.$or = [
+        { title: new RegExp(search, "i") },
+        { company: new RegExp(search, "i") },
+        { description: new RegExp(search, "i") },
+      ];
+    }
+    if (skill) query.skills = { $in: [skill] };
 
-    const saved = await newInternship.save();
-    res.status(201).json(saved);
+    const skip = (page - 1) * limit;
+    const total = await Internship.countDocuments(query);
+
+    const internships = await Internship.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(parseInt(limit))
+      .populate("createdBy", "name role");
+
+    res.json({ total, page: parseInt(page), internships });
   } catch (err) {
-    res.status(500).json({ message: "Error creating internship" });
+    console.error("❌ Get Internships Error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-// PUT update internship (Admin or HR)
-const updateInternship = async (req, res) => {
+// ✅ Get Internship by ID
+exports.getInternshipById = async (req, res) => {
+  try {
+    const internship = await Internship.findById(req.params.id)
+      .populate("createdBy", "name role")
+      .populate("applicants.student", "name email");
+
+    if (!internship) {
+      return res.status(404).json({ message: "Internship not found" });
+    }
+
+    res.json(internship);
+  } catch (err) {
+    console.error("❌ Get By ID Error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// ✅ Update Internship (Admin or Creator HR)
+exports.updateInternship = async (req, res) => {
   try {
     const internship = await Internship.findById(req.params.id);
     if (!internship) {
       return res.status(404).json({ message: "Internship not found" });
     }
 
-    const updated = await Internship.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
+    if (
+      String(internship.createdBy) !== String(req.user._id) &&
+      req.user.role !== "Admin"
+    ) {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    Object.assign(internship, req.body);
+    await internship.save();
+    res.json(internship);
+  } catch (err) {
+    console.error("❌ Update Internship Error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// ✅ Delete Internship (Admin or Creator HR)
+exports.deleteInternship = async (req, res) => {
+  try {
+    const internship = await Internship.findById(req.params.id);
+    if (!internship) {
+      return res.status(404).json({ message: "Internship not found" });
+    }
+
+    if (
+      String(internship.createdBy) !== String(req.user._id) &&
+      req.user.role !== "Admin"
+    ) {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    await internship.deleteOne();
+    res.json({ message: "Internship deleted successfully" });
+  } catch (err) {
+    console.error("❌ Delete Internship Error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// ✅ Apply for Internship (Students Only)
+exports.applyForInternship = async (req, res) => {
+  try {
+    if (req.user.role !== "Student") {
+      return res.status(403).json({ message: "Only students can apply" });
+    }
+
+    const internship = await Internship.findById(req.params.id);
+    if (!internship) {
+      return res.status(404).json({ message: "Internship not found" });
+    }
+
+    // check if already applied
+    const alreadyApplied = internship.applicants.find(
+      (a) => String(a.student) === String(req.user._id)
     );
 
-    res.json(updated);
-  } catch (err) {
-    res.status(500).json({ message: "Error updating internship" });
-  }
-};
-
-// DELETE internship (Admin only)
-const deleteInternship = async (req, res) => {
-  try {
-    const internship = await Internship.findById(req.params.id);
-    if (!internship) {
-      return res.status(404).json({ message: "Internship not found" });
+    if (alreadyApplied) {
+      return res.status(400).json({ message: "You have already applied" });
     }
 
-    await Internship.findByIdAndDelete(req.params.id);
-    res.json({ message: "Internship deleted" });
-  } catch (err) {
-    res.status(500).json({ message: "Error deleting internship" });
-  }
-};
-
-// POST apply for internship (Student only)
-const applyForInternship = async (req, res) => {
-  try {
-    const internshipId = req.params.id;
-    const userId = req.user._id;
-
-    // Check if already applied
-    const existingApp = await Application.findOne({
-      internship: internshipId,
-      applicant: userId,
+    internship.applicants.push({
+      student: req.user._id,
+      resumeLink: req.body.resumeLink || "",
     });
 
-    if (existingApp) {
-      return res.status(400).json({ message: "You have already applied for this internship." });
-    }
-
-    const application = new Application({
-      internship: internshipId,
-      applicant: userId,
-    });
-
-    const saved = await application.save();
-    res.status(201).json(saved);
+    await internship.save();
+    res.json({ message: "Application submitted successfully" });
   } catch (err) {
-    res.status(500).json({ message: "Error applying for internship" });
+    console.error("❌ Apply Error:", err);
+    res.status(500).json({ message: "Server error" });
   }
-};
-
-// GET logged-in user's internship applications (Student only)
-const getUserApplications = async (req, res) => {
-  try {
-    const applications = await Application.find({ applicant: req.user._id })
-      .populate("internship")
-      .sort({ createdAt: -1 });
-
-    res.json(applications);
-  } catch (err) {
-    res.status(500).json({ message: "Error fetching applications" });
-  }
-};
-
-module.exports = {
-  getAllInternships,
-  createInternship,
-  updateInternship,
-  deleteInternship,
-  applyForInternship,
-  getUserApplications,
 };

@@ -7,7 +7,7 @@ export default function Profile() {
   const [updatedUser, setUpdatedUser] = useState({});
 
   useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const currentUser = JSON.parse(localStorage.getItem("loggedInUser")); // ✅ fixed key
     if (currentUser) {
       setUser(currentUser);
       setUpdatedUser(currentUser);
@@ -20,18 +20,21 @@ export default function Profile() {
 
   const handleSave = () => {
     const users = JSON.parse(localStorage.getItem("users")) || [];
+
     const updatedUsers = users.map((u) =>
       u.email === user.email ? { ...u, ...updatedUser } : u
     );
+
     localStorage.setItem("users", JSON.stringify(updatedUsers));
-    localStorage.setItem("currentUser", JSON.stringify(updatedUser));
+    localStorage.setItem("loggedInUser", JSON.stringify(updatedUser)); // ✅ updated key
+
     setUser(updatedUser);
     setIsEditing(false);
     alert("Profile updated successfully!");
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("currentUser");
+    localStorage.removeItem("loggedInUser"); // ✅ same key
     window.location.href = "/login";
   };
 
@@ -53,8 +56,8 @@ export default function Profile() {
           <p><strong>Name:</strong> {user.name}</p>
           <p><strong>Role:</strong> {user.role}</p>
 
-          {/* Editable Fields */}
-          {user.role === "student" && (
+          {/* Editable Fields for Students */}
+          {user.role.toLowerCase() === "student" && (
             <>
               <label>University Roll Number:</label>
               <input
@@ -106,9 +109,7 @@ export default function Profile() {
             <button onClick={handleLogout}>🚪 Logout</button>
           </div>
         </div>
-        
       </div>
-      
     </div>
   );
 }

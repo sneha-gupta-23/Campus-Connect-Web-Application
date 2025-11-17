@@ -1,70 +1,112 @@
-.notices-container {
-  max-width: 800px;
+.notice-container {
+  max-width: 900px;
   margin: 30px auto;
   padding: 20px;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+  font-family: "Poppins", sans-serif;
 }
 
-.notices-container h1 {
+.notice-container h1 {
   text-align: center;
+  color: #006b3c;
   margin-bottom: 20px;
 }
 
 .notice-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  background: #f7fff9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
+}
+
+.notice-form h2 {
+  color: #005c2d;
+  margin-bottom: 10px;
 }
 
 .notice-form input,
 .notice-form textarea {
+  width: 100%;
+  margin: 8px 0;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
 }
 
 .notice-form button {
-  padding: 10px;
-  background-color: #00bfa6;
+  background: #009e5a;
+  color: white;
+  padding: 10px 18px;
   border: none;
-  border-radius: 5px;
-  color: #fff;
+  border-radius: 8px;
   cursor: pointer;
+  transition: 0.3s;
+  font-size: 15px;
 }
 
 .notice-form button:hover {
-  background-color: #009e8e;
+  background: #007a44;
 }
 
-.notices-list {
+.notice-list {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
 .notice-card {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 15px;
-  background: #f9f9f9;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 15px 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.notice-card:hover {
+  transform: translateY(-3px);
 }
 
 .notice-card h3 {
-  margin: 0 0 5px 0;
+  color: #004e2a;
+  margin-bottom: 8px;
 }
 
-.back-link {
+.notice-card p {
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.notice-card small {
   display: block;
-  margin-top: 30px;
-  text-align: center;
-  color: #00bfa6;
-  font-weight: bold;
-  text-decoration: none;
+  color: #777;
 }
 
-.back-link:hover {
-  text-decoration: underline;
+.notice-actions {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.notice-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007a44;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.notice-actions button:hover {
+  color: #ff4c4c;
+}
+
+.no-notice {
+  text-align: center;
+  color: #666;
+  font-size: 16px;
 }

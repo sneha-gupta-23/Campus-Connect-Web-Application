@@ -1,135 +1,71 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import React from "react";
+import { Link } from "react-router-dom";
 import "./HomePage.css";
-import { FaArrowUp } from "react-icons/fa";
 
 export default function HomePage() {
-  const [darkMode, setDarkMode] = useState(false);
-  const auth = useAuth();
-  const currentUser = auth?.currentUser;
-
-  const navigate = useNavigate(); 
-
-
-  useEffect(() => {
-    AOS.init({
-      duration: 600,
-      offset: 80,
-      easing: 'ease-in-out',
-      once: true
-    });
-  }, []);
-
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-      const btn = document.getElementById("scrollToTopBtn");
-      if (btn) btn.style.display = scrollTop > 300 ? "block" : "none";
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-
   return (
-    <div className={`homepage ${darkMode ? "dark" : ""}`}>
+    <div className="home">
       {/* Navbar */}
       <nav className="navbar">
-        <div className="logo">CampusConnect</div>
-        <div className="nav-links">
-          <a href="#hero">Home</a>
-          <a href="#features">Features</a>
-          <a href="#services">Services</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-          <a href="/notes">Notes</a>
-          <a href="/internship">Internships</a>
-          <a href="/placement">Placements</a>
+        <div className="container nav-container">
+          <Link to="/" className="logo">CampusConnect</Link>
+          <div className="nav-links">
+            <Link to="/login">Login</Link>
+            <Link to="/register" className="btn">Register</Link>
+          </div>
         </div>
-        <button className="darkmode-toggle" onClick={() => setDarkMode(!darkMode)}>
-          {darkMode ? "🌙" : "☀️"}
-        </button>
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="hero" data-aos="fade-up">
-        <h1>Welcome to CampusConnect</h1>
-        <p>Your all-in-one campus companion</p>
-        <div className="btn-group">
-          <a href="/register" className="btn">Get Started</a>
-
-          {/* Show only if admin or HR */}
-          {(currentUser?.role === "admin" || currentUser?.role === "hr") && (
-            <button className="btn outline" onClick={() => navigate("/post-internship")}>
-              + Post Internship
-            </button>
-          )}
+      <section className="hero">
+        <div className="container hero-inner">
+          <div className="hero-text">
+            <h1>Welcome to CampusConnect</h1>
+            <p>
+              Your all-in-one campus companion — manage internships, placements,
+              notes, and notices in one smooth experience.
+            </p>
+            <Link to="/register" className="btn btn-primary">Get Started</Link>
+          </div>
+          <div className="hero-img">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+              alt="Campus illustration"
+            />
+          </div>
         </div>
       </section>
-
 
       {/* Features Section */}
-      <section id="features" className="features" data-aos="fade-up">
-        <h2>Our Features</h2>
-        <div className="grid">
-          <div className="card">📚 Notes Sharing</div>
-          <div className="card">🎯 Internship Listings</div>
-          <div className="card">🗓️ Event Updates</div>
-          <div className="card">📢 Notices</div>
+      <section className="features">
+        <div className="container">
+          <h2>Explore Our Features</h2>
+          <div className="feature-grid">
+            <div className="feature-card">
+              <img src="https://cdn-icons-png.flaticon.com/512/3135/3135712.png" alt="Internships" />
+              <h3>Internships</h3>
+              <p>Search, apply, and manage internships seamlessly.</p>
+            </div>
+            <div className="feature-card">
+              <img src="https://cdn-icons-png.flaticon.com/512/3135/3135710.png" alt="Placements" />
+              <h3>Placements</h3>
+              <p>Get notified about the latest placement opportunities.</p>
+            </div>
+            <div className="feature-card">
+              <img src="https://cdn-icons-png.flaticon.com/512/3135/3135708.png" alt="Notes" />
+              <h3>Notes & Notices</h3>
+              <p>Access notes and stay updated with campus announcements.</p>
+            </div>
+          </div>
         </div>
-      </section>
-
-      {/* Services Section */}
-      <section id="services" className="services" data-aos="fade-up">
-        <h2>Our Services</h2>
-        <div className="grid">
-          <div className="card">🔍 Placement Prep</div>
-          <div className="card">📝 Resume Builder</div>
-          <div className="card">🧠 Doubt Solving</div>
-          <div className="card">💼 HR Connect</div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section id="testimonials" className="testimonials" data-aos="fade-up">
-        <h2>What Students Say</h2>
-        <div className="grid">
-          <div className="card">"Best app to manage my semester!"</div>
-          <div className="card">"Easy access to all campus updates."</div>
-          <div className="card">"Loved the internships section!"</div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="about" data-aos="fade-up">
-        <h2>About CampusConnect</h2>
-        <p>
-          CampusConnect is designed to simplify student life. Whether it’s sharing notes,
-          exploring career options, or staying updated with events — we’ve got you covered!
-        </p>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="contact" data-aos="fade-up">
-        <h2>Contact Us</h2>
-        <p>Email: support@campusconnect.com</p>
-        <p>Phone: +91-9876543210</p>
       </section>
 
       {/* Footer */}
       <footer className="footer">
-        <p>&copy; {new Date().getFullYear()} CampusConnect. All rights reserved.</p>
+        <div className="container">
+          <p>© {new Date().getFullYear()} CampusConnect — All Rights Reserved</p>
+        </div>
       </footer>
-
-      {/* Scroll To Top Button */}
-      <button id="scrollToTopBtn" className="scroll-top" onClick={scrollToTop}>
-        <FaArrowUp />
-      </button>
     </div>
   );
 }

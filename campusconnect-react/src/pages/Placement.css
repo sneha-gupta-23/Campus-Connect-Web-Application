@@ -1,109 +1,188 @@
-.placement-page {
-  font-family: "Segoe UI", sans-serif;
+.placement-container {
+  padding: 30px 80px;
+  font-family: "Poppins", sans-serif;
+  background-color: #f8fafc;
+  min-height: 100vh;
 }
 
-.top-nav {
-  background-color: #3baaa9;
-  color: #fff;
-  padding: 15px 30px;
+.placement-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-}
-
-.top-nav h1 {
-  font-size: 22px;
-}
-
-.top-nav nav a {
-  color: #fff;
-  margin-left: 20px;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.top-nav nav a:hover {
-  text-decoration: underline;
-}
-
-.content {
-  display: flex;
-  justify-content: space-around;
   align-items: center;
-  padding: 50px 30px;
 }
 
-.content .left {
-  max-width: 40%;
-}
-
-.content h2 {
-  font-size: 32px;
-  color: #3baaa9;
-  margin-bottom: 20px;
-}
-
-.content p {
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-.grab-btn {
-  display: inline-block;
-  margin-top: 20px;
-  background-color: #3baaa9;
+.back-btn {
+  background-color: #2563eb;
   color: #fff;
-  padding: 10px 18px;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.grab-btn:hover {
-  background-color: #2a8787;
-}
-
-.content .right img {
-  max-width: 400px;
-  border-radius: 8px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.1);
-}
-
-.content figcaption {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 14px;
-  color: #555;
-}
-
-footer {
-  background-color: #3baaa9;
-  color: #fff;
-  text-align: center;
-  padding: 30px 20px;
-  margin-top: 40px;
-}
-
-footer .footer-links {
-  margin: 20px 0;
-}
-
-footer button {
-  background: #222;
-  color: #fff;
-  margin: 5px;
   border: none;
-  padding: 8px 15px;
-  border-radius: 4px;
+  padding: 8px 14px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.3s;
 }
 
-footer button:hover {
-  background: #444;
+.back-btn:hover {
+  background-color: #1d4ed8;
 }
 
-footer address {
+.placement-title {
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.placement-subtitle {
+  color: #64748b;
+  margin: 10px 0 30px;
+}
+
+.search-bar {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.search-bar input {
+  width: 60%;
+  padding: 10px 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.search-bar input:focus {
+  border-color: #3b82f6;
+}
+
+.add-placement-form {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 40px;
+}
+
+.add-placement-form h3 {
+  color: #0f172a;
+  margin-bottom: 15px;
+}
+
+.form-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.form-fields input {
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.form-fields input:focus {
+  border-color: #3b82f6;
+}
+
+.form-fields button {
+  grid-column: 1 / -1;
+  background-color: #16a34a;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form-fields button:hover {
+  background-color: #15803d;
+}
+
+.placement-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 25px;
+}
+
+.placement-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: 0.3s ease;
+}
+
+.placement-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.company-logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.company-name {
+  font-weight: 500;
+  color: #475569;
+}
+
+.package {
+  font-weight: 600;
+  color: #2563eb;
+}
+
+.applicants {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.card-buttons {
   margin-top: 10px;
-  font-style: normal;
-  line-height: 1.5;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.apply-btn {
+  background-color: #2563eb;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+.apply-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.delete-btn {
+  background-color: #dc2626;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background-color: #b91c1c;
+}
+
+.no-results {
+  text-align: center;
+  color: #64748b;
+  font-style: italic;
+  margin-top: 30px;
 }

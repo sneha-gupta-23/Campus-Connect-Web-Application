@@ -1,62 +1,68 @@
-// src/components/InternshipModal.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./InternshipModal.css";
 
-export default function InternshipModal({ isOpen, onClose, onSave, editingInternship }) {
-  const [formData, setFormData] = useState({
-    title: "",
-    company: "",
-    category: "",
-    mode: "",
-    location: "",
-    description: "",
-    applyLink: ""
-  });
-
-  useEffect(() => {
-    if (editingInternship) {
-      setFormData(editingInternship);
-    } else {
-      setFormData({
-        title: "",
-        company: "",
-        category: "",
-        mode: "",
-        location: "",
-        description: "",
-        applyLink: ""
-      });
+export default function InternshipModal({ closeModal, onSave, editData }) {
+  const [form, setForm] = useState(
+    editData || {
+      id: Date.now(),
+      title: "",
+      company: "",
+      location: "",
+      stipend: "",
+      icon: "",
+      applicants: [],
     }
-  }, [editingInternship]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formData);
+    onSave(form);
   };
-
-  if (!isOpen) return null;
 
   return (
     <div className="modal-overlay">
-      <div className="modal-container">
-        <h2>{editingInternship ? "Edit Internship" : "Post New Internship"}</h2>
-        <form onSubmit={handleSubmit} className="modal-form">
-          <input type="text" name="title" placeholder="Title" value={formData.title} onChange={handleChange} required />
-          <input type="text" name="company" placeholder="Company" value={formData.company} onChange={handleChange} required />
-          <input type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} required />
-          <input type="text" name="mode" placeholder="Mode (Remote/On-site)" value={formData.mode} onChange={handleChange} required />
-          <input type="text" name="location" placeholder="Location" value={formData.location} onChange={handleChange} required />
-          <input type="url" name="applyLink" placeholder="Application Link" value={formData.applyLink} onChange={handleChange} required />
-          <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} required />
-
+      <div className="modal-box">
+        <h3>{editData ? "Edit Internship" : "Add Internship"}</h3>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Title"
+            value={form.title}
+            onChange={(e) => setForm({ ...form, title: e.target.value })}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Company"
+            value={form.company}
+            onChange={(e) => setForm({ ...form, company: e.target.value })}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Location"
+            value={form.location}
+            onChange={(e) => setForm({ ...form, location: e.target.value })}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Stipend"
+            value={form.stipend}
+            onChange={(e) => setForm({ ...form, stipend: e.target.value })}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Icon URL (optional)"
+            value={form.icon}
+            onChange={(e) => setForm({ ...form, icon: e.target.value })}
+          />
           <div className="modal-actions">
-            <button type="submit" className="btn-save">Save</button>
-            <button type="button" className="btn-cancel" onClick={onClose}>Cancel</button>
+            <button type="submit" className="save-btn">Save</button>
+            <button type="button" className="cancel-btn" onClick={closeModal}>
+              Cancel
+            </button>
           </div>
         </form>
       </div>
