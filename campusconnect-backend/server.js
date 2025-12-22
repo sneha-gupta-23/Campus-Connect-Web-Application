@@ -4,19 +4,16 @@ const connectDB = require("./config/db");
 
 const app = express();
 
-// Connect MongoDB
-connectDB();
-
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Root route (IMPORTANT for testing)
+// Connect MongoDB
+connectDB();
+
+// Root route
 app.get("/", (req, res) => {
-  res.json({
-    success: true,
-    message: "🚀 CampusConnect Backend API is running",
-  });
+  res.send("🚀 CampusConnect Backend API is running");
 });
 
 // Routes
@@ -27,6 +24,8 @@ app.use("/api/resources", require("./routes/studyResources"));
 app.use("/api/internships", require("./routes/internshipRoutes"));
 app.use("/api/applications", require("./routes/applications"));
 
-// ❌ DO NOT use app.listen() on Vercel
-
-module.exports = app;   // ✅ EXPORT APP
+// ✅ REQUIRED for Render
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
