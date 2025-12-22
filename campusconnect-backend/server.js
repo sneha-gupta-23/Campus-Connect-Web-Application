@@ -11,10 +11,13 @@ connectDB();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Root route
 app.get("/", (req, res) => {
-  res.send("🚀 CampusConnect Backend API is running");
+  res.json({
+    success: true,
+    message: "🚀 CampusConnect Backend API is running",
+  });
 });
+
 
 // Routes
 app.use("/api/auth", require("./routes/authRoutes"));
