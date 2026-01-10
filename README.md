@@ -2,6 +2,12 @@
 
 CampusConnect is a full-stack web application designed for Students, HR, and Admin to manage campus activities including internships, placements, notes, notices, profiles, and events.
 
+🔗 Live Links
+
+Frontend: https://campusconnect-web.vercel.app
+
+Backend API: https://campusconnect-backend-3s6m.onrender.com
+
 ---
 
 ## 🚀 Features
