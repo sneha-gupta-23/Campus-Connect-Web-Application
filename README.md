@@ -100,8 +100,7 @@ Students have normal registration flow
 | Notes Upload      | ✔       | ✔  | ✔     |
 | Notes Delete      | ✖       | ✖  | ✔     |
 
-
-📸 UI Overview (Designed by Sneha)
+ 
 
 Modern UI inspired by CampusConnection
 
